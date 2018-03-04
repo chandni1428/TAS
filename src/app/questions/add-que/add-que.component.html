@@ -1,0 +1,113 @@
+<button class="btn btn-primary" (click)="lgModal.show()">Add Questions</button>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Questions</h4>
+        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="que-form form-horizontal" #queForm="ngForm" (ngSubmit)="onSubmit(queForm)">
+          <fieldset>
+            <div *ngFor="let compo of component">
+              <input type="hidden" name="id" #id="ngModel" [(ngModel)]="questionsService.selectedQuestion.id">
+              <div class="form-group">
+                <div class="col-md-10">
+                  <input id="queText" name="queText" type="text" placeholder="Enter Question" class="form-control input-md" required="">
+                </div>
+              </div>
+              <div class="form-group input-group col-md-10">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="radio" name="option">
+                  </div>
+                </div>
+                <input type="text" name="optionA" #optionA="ngModel" [(ngModel)]="questionsService.selectedQuestion.optionA" class="form-control"
+                  placeholder="Enter Option">
+              </div>
+              <div class="form-group input-group col-md-10">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="radio" name="option">
+                  </div>
+                </div>
+                <input type="text" name="optionB" #optionB="ngModel" [(ngModel)]="questionsService.selectedQuestion.optionB" class="form-control"
+                  placeholder="Enter Option">
+              </div>
+              <div class="form-group input-group col-md-10">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="radio" name="option">
+                  </div>
+                </div>
+                <input type="text" name="optionC" #optionC="ngModel" [(ngModel)]="questionsService.selectedQuestion.optionC" class="form-control"
+                  placeholder="Enter Option">
+              </div>
+              <div class="form-group input-group col-md-10">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="radio" name="option">
+                  </div>
+                </div>
+                <input type="text" name="optionD" #optionD="ngModel" [(ngModel)]="questionsService.selectedQuestion.optionD" class="form-control"
+                  placeholder="Enter Option">
+              </div>
+            </div>
+            <div class="form-row text-center">
+              <div class="col-12">
+                <button class="btn btn-info" (click)="onAdd()">Add New Question</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" id="btnAdd" [disabled]="!queForm.valid" name="btnAdd" class="btn btn-success">SAVE</button>
+        <button type="button" id="btnCancel" name="btnCancel" class="btn btn-danger" aria-hidden="true" (click)="resetForm(queForm)">CANCEL</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #template1>
+  <div class="modal-body text-center">
+    <p>Are you Sure?</p>
+    <button type="button" class="btn btn-default" (click)="onConfirm(template1)">Yes</button>
+    <button type="button" class="btn btn-primary" (click)="onCancel(template1)">No</button>
+  </div>
+</ng-template>
+
+<table class='table'>
+  <thead>
+    <tr>
+      <th>Question Title</th>
+      <th>Correct Answer</th>
+      <th>Option A</th>
+      <th>Option B</th>
+      <th>Option C</th>
+      <th>Option D</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let que of questionsService.questionsList">
+      <td>{{que.queTitle}}</td>
+      <td>{{que.correctAnswer}}</td>
+      <td>{{que.optionA}}</td>
+      <td>{{que.optionB}}</td>
+      <td>{{que.optionC}}</td>
+      <td>{{que.optionD}}</td>
+      <td>
+        <a class="btn" (click)="showForEdit(que)">
+          <i class="glyphicon glyphicon-pencil">Edit</i>
+        </a>
+        <a class="btn" (click)="onDelete( que, template1)">
+          <i class="glyphicon glyphicon-trash">Delete</i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
